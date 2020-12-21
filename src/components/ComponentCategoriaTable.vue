@@ -1,6 +1,4 @@
 <template>
-    <div id="app">
-        <v-app id="inspire">
             <v-data-table
             :headers="headers"
             :items="categorias"
@@ -145,8 +143,6 @@
                     </v-btn>
                 </template>
             </v-data-table>
-        </v-app>
-    </div>
 </template>
 
 <script>

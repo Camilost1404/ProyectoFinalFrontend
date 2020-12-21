@@ -1,6 +1,4 @@
 <template>
-    <div id="app">
-        <v-app id="inspire">
             <v-data-table
             :headers="headers"
             :items="usuarios"
@@ -85,6 +83,7 @@
                                                 <v-text-field
                                                 v-model="editedItem.password"
                                                 label="Password"
+                                                type="password"
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col
@@ -175,8 +174,6 @@
                     </v-btn>
                 </template>
             </v-data-table>
-        </v-app>
-    </div>
 </template>
 
 <script>

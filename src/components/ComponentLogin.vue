@@ -1,0 +1,104 @@
+<template>
+        <v-container>
+            <v-card
+        elevation="24"
+        rounded
+        class="pa-4"
+        >
+            <v-card-title>
+                <span class="headline">Ingresar</span>
+            </v-card-title>
+            <v-form
+                ref="form"
+                lazy-validation
+            >
+                <v-text-field
+                v-model="login.email"
+                type="email"
+                :rules="emailRules"
+                class="ma-4"
+                label="E-mail"
+                required
+                ></v-text-field>
+
+                <v-text-field
+                v-model="login.password"
+                type="password"
+                :rules="passwordRules"
+                class="ma-4"
+                label="Password"
+                required
+                ></v-text-field>
+
+                <v-btn
+                color="primary"
+                class="mr-4"
+                @click="loginUser"
+                rounded
+                >
+                Ingresar
+                </v-btn>
+
+                <v-btn
+                color="accent"
+                @click="goToRegister"
+                rounded        
+                >
+                Registrarse
+                </v-btn>
+            </v-form>
+        </v-card>
+        </v-container>
+</template>
+
+<script>
+import axios from "axios"
+import swal from 'sweetalert';
+    export default {
+        name: "ComponentLogin",    
+    data(){
+        return{
+            emailRules: [
+                v => !!v || 'E-mail is required',
+                v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            ],
+            passwordRules: [
+                v => !!v || 'Password is required',
+            ],
+            login:{
+                email: "",
+                password: "",
+            }
+        }
+
+    },
+    methods: {
+        loginUser(){
+            if(this.$refs.form.validate()){
+                axios
+                    .post("http://localhost:3000/api/usuario/login", this.login)
+                    .then(result => {
+                    localStorage.setItem("token", result.data.tokenReturn);
+                    this.form.email = "";
+                    this.form.password = "";
+                    swal("Login Correcto", "Ingreso exitoso!!", "success");
+                    window.location.href = "/auth/user";
+                    })
+                    .catch(error => {
+                        swal("Oops!", "Email o Contraseña incorrectos", "error");
+                        this.login.email="";
+                        this.login.password="";
+                        console.log(error);
+                    });    
+            }
+        },
+        goToRegister(){
+            this.$router.push("/register")
+        }
+    }
+    }
+</script>
+
+<style scoped>
+
+</style>
