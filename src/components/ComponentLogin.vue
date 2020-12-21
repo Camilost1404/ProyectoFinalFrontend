@@ -78,11 +78,11 @@ import swal from 'sweetalert';
                 axios
                     .post("http://localhost:3000/api/usuario/login", this.login)
                     .then(result => {
-                    localStorage.setItem("token", result.data.tokenReturn);
-                    this.form.email = "";
-                    this.form.password = "";
-                    swal("Login Correcto", "Ingreso exitoso!!", "success");
-                    window.location.href = "/auth/user";
+                        this.$store.dispatch("guardarToken", result.data.tokenReturn)                        
+                        swal("Login Correcto", "Ingreso exitoso!!", "success");
+                        this.login.email="";
+                        this.login.password="";
+                        this.$router.push("/auth");
                     })
                     .catch(error => {
                         swal("Oops!", "Email o Contraseña incorrectos", "error");

@@ -1,28 +1,25 @@
 <template>
     <v-app id="inspire">
-        <v-app-bar app>
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-        <v-toolbar-title>Application</v-toolbar-title>
-        </v-app-bar>
-
-        <v-navigation-drawer
-        v-model="drawer"
-        fixed
-        temporary
-        >
-        <v-card
-            class="mx-auto"
-            width="300"
-        >
+        <v-app-bar-nav-icon :class="this.$store.state.token===null? 'd-flex d-sm-none' : false" @click="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-navigation-drawer
+            v-model="drawer"
+            fixed
+            temporary
+            :class="this.$store.state.token==null? 'd-flex d-sm-none' : false"
+            >
             <v-list>
-            <v-list-item to="/">
-                <v-list-item-icon>
-                <v-icon>mdi-home</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>Home</v-list-item-title>
-            </v-list-item>
-        
+                <v-list-item>
+                <v-icon x-large>
+                    mdi-account-circle
+                </v-icon>
+                </v-list-item>
+                <v-list-item-content v-if="this.$store.state.token!==null" class="ml-3">
+                    <v-list-item-title  class="title">
+                    {{this.$store.state.usuario.nombre}} {{this.$store.state.usuario.apellido}}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>{{this.$store.state.usuario.email}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-divider></v-divider>
                 <v-list-group
                 prepend-icon="mdi-head-minus"
                 >
@@ -65,9 +62,7 @@
                 </v-list-item>
                 </v-list-group>
             </v-list>
-        </v-card>
-        </v-navigation-drawer>
-
+            </v-navigation-drawer>
         <v-main class="grey lighten-2">
             <v-container>
                 <router-view></router-view>
