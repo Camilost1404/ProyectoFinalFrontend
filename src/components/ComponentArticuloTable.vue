@@ -3,15 +3,17 @@
         <v-app id="inspire">
             <v-data-table
             :headers="headers"
-            :items="desserts"
-            sort-by="calories"
+            :items="articulos"
+            sort-by="nombre"
             class="elevation-1"
+            :loading="cargando"
+            loading-text="Cargando... Por Favor Espere"
             >
                 <template v-slot:top>
                     <v-toolbar
                     flat
                     >
-                        <v-toolbar-title>My CRUD</v-toolbar-title>
+                        <v-toolbar-title>Artículos</v-toolbar-title>
                         <v-divider
                         class="mx-4"
                         inset
@@ -30,7 +32,7 @@
                                 v-bind="attrs"
                                 v-on="on"
                                 >
-                                New Item
+                                Nueva Artículo
                                 </v-btn>
                             </template>
                             <v-card>
@@ -42,52 +44,62 @@
                                         <v-row>
                                             <v-col
                                             cols="12"
-                                            sm="6"
-                                            md="4"
                                             >
                                                 <v-text-field
-                                                v-model="editedItem.name"
-                                                label="Dessert name"
+                                                v-model="editedItem.imagen"
+                                                label="Subir imagén"
+                                                type="file"
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col
                                             cols="12"
+                                            md="6"
                                             sm="6"
-                                            md="4"
                                             >
                                                 <v-text-field
-                                                v-model="editedItem.calories"
-                                                label="Calories"
+                                                v-model="editedItem.codigo"
+                                                label="Código"
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col
                                             cols="12"
+                                            md="6"
                                             sm="6"
-                                            md="4"
+                                            >
+                                                <v-select
+                                                v-model="categoria"
+                                                label="Categoría"
+                                                :items="categorias"
+                                                item-text="nombre"
+                                                item-value="id"
+                                                return-object
+                                                ></v-select>
+                                            </v-col>
+                                            <v-col
+                                            cols="12"
                                             >
                                                 <v-text-field
-                                                v-model="editedItem.fat"
-                                                label="Fat (g)"
+                                                v-model="editedItem.nombre"
+                                                label="Nombre Artículo"
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col
                                             cols="12"
-                                            sm="6"
-                                            md="4"
                                             >
-                                                <v-text-field
-                                                v-model="editedItem.carbs"
-                                                label="Carbs (g)"
-                                                ></v-text-field>
+                                                <v-textarea
+                                                v-model="editedItem.descripcion"
+                                                label="Descripción"
+                                                counter="254"
+                                                no-resize
+                                                auto-grow
+                                                ></v-textarea>
                                             </v-col>
                                             <v-col
                                             cols="12"
-                                            sm="6"
-                                            md="4"
                                             >
                                                 <v-text-field
-                                                v-model="editedItem.protein"
-                                                label="Protein (g)"
+                                                v-model="editedItem.precio"
+                                                label="Precio"
                                                 ></v-text-field>
                                             </v-col>
                                         </v-row>
@@ -100,50 +112,66 @@
                                     text
                                     @click="close"
                                     >
-                                    Cancel
+                                    Cancelar
                                     </v-btn>
                                     <v-btn
                                     color="blue darken-1"
                                     text
                                     @click="save"
                                     >
-                                    Save
+                                    Guardar
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
-                                <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+                                <v-card-title class="headline">Seguro que quieres cambiar el estado ?</v-card-title>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                                    <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                                    <v-btn color="blue darken-1" text @click="closeDelete">Cancelar</v-btn>
+                                    <v-btn color="blue darken-1" text @click="deleteItemConfirm">Aceptar</v-btn>
                                     <v-spacer></v-spacer>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
                     </v-toolbar>
                 </template>
-                <template v-slot:item.actions="{ item }">
+                <template v-slot:[`item.actions`]="{ item }">
                     <v-icon
-                    small
+                    medium
                     class="mr-2"
                     @click="editItem(item)"
                     >
                     mdi-pencil
                     </v-icon>
-                    <v-icon
-                    small
+                    <v-icon 
+                    v-if="item.estado"
+                    medium
                     @click="deleteItem(item)"
                     >
-                    mdi-delete
+                    mdi-toggle-switch
                     </v-icon>
+                    <v-icon 
+                    v-else
+                    medium
+                    @click="deleteItem(item)"
+                    >
+                    mdi-toggle-switch-off-outline              
+                    </v-icon>
+                </template>
+                <template v-slot:[`item.estado`]="{ item }">
+                    <div v-if="item.estado">
+                        <span class="green--text">Activo</span>
+                    </div>
+                    <div v-else>
+                        <span class="red--text">Inactivo</span>
+                    </div>
                 </template>
                 <template v-slot:no-data>
                     <v-btn
                     color="primary"
-                    @click="initialize"
+                    @click="list"
                     >
                     Reset
                     </v-btn>
@@ -159,40 +187,59 @@
         data: () => ({
             dialog: false,
             dialogDelete: false,
+            cargando: true,
             headers: [
-            {
-                text: 'Dessert (100g serving)',
-                align: 'start',
-                sortable: false,
-                value: 'name',
-            },
-            { text: 'Calories', value: 'calories' },
-            { text: 'Fat (g)', value: 'fat' },
-            { text: 'Carbs (g)', value: 'carbs' },
-            { text: 'Protein (g)', value: 'protein' },
-            { text: 'Actions', value: 'actions', sortable: false },
+                {
+                    text: 'Imagén',
+                    align: 'start',
+                    value: 'imagen',
+                    sortable: false
+                },
+                { text: 'Código', value: 'codigo' },
+                { text: 'Categoría', value: 'categoria.nombre' },
+                {
+                    text: 'Nombre Artículo',
+                    align: 'start',
+                    value: 'nombre',
+                },
+                { text: 'Descripción', value: 'descripcion' },
+                { text: 'Precio', value: 'precio' },
+                { text: 'Estado', value: 'estado' },
+                { text: 'Actions', value: 'actions', sortable: false },
             ],
-            desserts: [],
+            articulos: [],
+            categorias: [],
+            categoria: "",
             editedIndex: -1,
             editedItem: {
-            name: '',
-            calories: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
+                imagen: null,
+                codigo: "",
+                categoria: {
+                    id: 0,
+                    nombre: "",
+                    estado: 0
+                },
+                nombre: '',
+                descripcion: '',
+                precio: 0,
             },
             defaultItem: {
-            name: '',
-            calories: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
+                imagen: null,
+                codigo: "",
+                categoria: {
+                    id: 0,
+                    nombre: "",
+                    estado: 0
+                },
+                nombre: '',
+                descripcion: '',
+                precio: 0,
             },
         }),
 
         computed: {
             formTitle () {
-            return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+            return this.editedIndex === -1 ? 'Nueva Artículo' : 'Editar Artículo'
             },
         },
 
@@ -206,99 +253,72 @@
         },
 
         created () {
-            this.initialize()
+            this.list()
+            this.listCategoria()
         },
 
         methods: {
-            initialize () {
-            this.desserts = [
-                {
-                name: 'Frozen Yogurt',
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-                },
-                {
-                name: 'Ice cream sandwich',
-                calories: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-                },
-                {
-                name: 'Eclair',
-                calories: 262,
-                fat: 16.0,
-                carbs: 23,
-                protein: 6.0,
-                },
-                {
-                name: 'Cupcake',
-                calories: 305,
-                fat: 3.7,
-                carbs: 67,
-                protein: 4.3,
-                },
-                {
-                name: 'Gingerbread',
-                calories: 356,
-                fat: 16.0,
-                carbs: 49,
-                protein: 3.9,
-                },
-                {
-                name: 'Jelly bean',
-                calories: 375,
-                fat: 0.0,
-                carbs: 94,
-                protein: 0.0,
-                },
-                {
-                name: 'Lollipop',
-                calories: 392,
-                fat: 0.2,
-                carbs: 98,
-                protein: 0,
-                },
-                {
-                name: 'Honeycomb',
-                calories: 408,
-                fat: 3.2,
-                carbs: 87,
-                protein: 6.5,
-                },
-                {
-                name: 'Donut',
-                calories: 452,
-                fat: 25.0,
-                carbs: 51,
-                protein: 4.9,
-                },
-                {
-                name: 'KitKat',
-                calories: 518,
-                fat: 26.0,
-                carbs: 65,
-                protein: 7,
-                },
-            ]
+            list () {
+                axios
+                .get("http://localhost:3000/api/articulo/list")
+                .then(response => {
+                    this.articulos = response.data
+                    this.cargando = false
+                })
+                .catch(error => {
+                    return error
+                })
             },
-
+            listCategoria() {
+                axios
+                .get("http://localhost:3000/api/categoria/list")
+                .then(response => {
+                    this.categorias = response.data
+                })
+                .catch(error => {
+                    return error
+                })
+            },
             editItem (item) {
-            this.editedIndex = this.desserts.indexOf(item)
+            // this.editedIndex = this.categorias.indexOf[indexOf(item)].id
+            this.editedIndex = item.id
+            this.categoria = item? item.categoria : ""
             this.editedItem = Object.assign({}, item)
             this.dialog = true
             },
 
             deleteItem (item) {
-            this.editedIndex = this.desserts.indexOf(item)
+            this.editedIndex = item.id
             this.editedItem = Object.assign({}, item)
             this.dialogDelete = true
             },
 
             deleteItemConfirm () {
-            this.desserts.splice(this.editedIndex, 1)
+            if (this.editedItem.estado === 1) {
+                // Editar
+                axios
+                .put("http://localhost:3000/api/articulo/deactivate", {
+                    id: this.editedItem.id,
+                    })
+                .then(response => {
+                    this.list()
+                })
+                .catch(error => {
+                    return error
+                })
+                // Object.assign(this.desserts[this.editedIndex], this.editedItem)
+            }else{
+                axios
+                .put("http://localhost:3000/api/articulo/activate", {
+                    id: this.editedItem.id,
+                    })
+                .then(response => {
+                    this.list()
+                })
+                .catch(error => {
+                    return error
+                })
+            }
             this.closeDelete()
             },
 
@@ -306,6 +326,7 @@
             this.dialog = false
             this.$nextTick(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)
+                this.categoria = ""
                 this.editedIndex = -1
             })
             },
@@ -320,9 +341,43 @@
 
             save () {
             if (this.editedIndex > -1) {
-                Object.assign(this.desserts[this.editedIndex], this.editedItem)
+                // Editar
+                axios
+                .put("http://localhost:3000/api/articulo/update", {
+                    id: this.editedItem.id,
+                    imagen: this.editedItem.imagen,
+                    codigo: this.editedItem.codigo,
+                    nombre: this.editedItem.nombre,
+                    categoriaId: this.categoria.id,
+                    descripcion: this.editedItem.descripcion,
+                    precio: this.editedItem.precio,}
+                    )
+                .then(response => {
+                    this.list()
+                })
+                .catch(error => {
+                    return error
+                })
+                // Object.assign(this.desserts[this.editedIndex], this.editedItem)
             } else {
-                this.desserts.push(this.editedItem)
+                // Agregar
+                axios
+                .post("http://localhost:3000/api/articulo/add", {
+                    imagen: this.editedItem.imagen,
+                    codigo: this.editedItem.codigo,
+                    nombre: this.editedItem.nombre,
+                    categoriaId: this.categoria.id,
+                    descripcion: this.editedItem.descripcion,
+                    precio: this.editedItem.precio,
+                    }
+                    )
+                .then(response => {
+                    this.list()
+                })
+                .catch(error => {
+                    return error
+                })
+                // this.categorias.push(this.editedItem)
             }
             this.close()
             },
