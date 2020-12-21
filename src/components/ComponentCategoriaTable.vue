@@ -155,7 +155,7 @@
 
 <script>
     export default {
-        name: ComponentCategoriaTable,
+        name: "ComponentCategoriaTable",
         data: () => ({
             dialog: false,
             dialogDelete: false,
