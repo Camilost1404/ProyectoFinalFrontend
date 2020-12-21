@@ -43,9 +43,10 @@
               <v-list-item
                 v-for="(item, key) in administrar"
                 :key="key"
+                :to="item.to"
                 link
               >
-                <v-list-item-title v-text="item.title" :to="item.to"></v-list-item-title>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
     
                 <v-list-item-icon>
                   <v-icon v-text="item.icon"></v-icon>
@@ -63,9 +64,10 @@
               <v-list-item
                 v-for="(item, key) in permisos"
                 :key="key"
+                :to="item.to"
                 link
               >
-                <v-list-item-title v-text="item.title" :to="item.to"></v-list-item-title>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
     
                 <v-list-item-icon>
                   <v-icon v-text="item.icon"></v-icon>
@@ -99,7 +101,7 @@
           {
             title: 'Artículos', 
             icon:'mdi-file',
-            to: "/categoria"
+            to: "/articulo"
           },
         ],
         permisos:[          
