@@ -5,7 +5,7 @@
 <script>
 import ComponentCategoriaTable from "../components/ComponentCategoriaTable.vue"
     export default {
-        name: Categoria,
+        name: "Categoria",
         components: {
             ComponentCategoriaTable
         }
