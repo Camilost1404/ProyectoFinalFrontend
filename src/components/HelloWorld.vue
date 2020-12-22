@@ -161,7 +161,7 @@
     },
     mounted() {
       axios
-        .get("http://localhost:3000/api/articulo/list")
+        .get("https://cryptic-tor-85862.herokuapp.com/api/articulo/list")
         .then((response) => {
           (this.servicios = response.data)
           // console.log(this.servicios);

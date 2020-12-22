@@ -81,7 +81,7 @@ import swal from 'sweetalert';
         loginUser(){
             if(this.$refs.form.validate()){
                 axios
-                    .post("http://localhost:3000/api/usuario/login", this.login)
+                    .post("https://cryptic-tor-85862.herokuapp.com/api/usuario/login", this.login)
                     .then(result => {
                         this.$store.dispatch("guardarToken", result.data.tokenReturn)                        
                         swal("Login Correcto", "Ingreso exitoso!!", "success");

@@ -177,6 +177,7 @@
 </template>
 
 <script>
+import axios from "axios";
     export default {
         name: "ComponentUsuarioTable",
         data: () => ({
@@ -238,7 +239,7 @@
         methods: {
             list () {
                 axios
-                .get("http://localhost:3000/api/usuario/list", {headers: { "token": this.$store.state.token}},)
+                .get("https://cryptic-tor-85862.herokuapp.com/api/usuario/list", {headers: { "token": this.$store.state.token}},)
                 .then(response => {
                     this.usuarios = response.data
                     this.cargando = false
@@ -264,7 +265,7 @@
             if (this.editedItem.estado === 1) {
                 // Editar
                 axios
-                .put("http://localhost:3000/api/usuario/deactivate", {
+                .put("https://cryptic-tor-85862.herokuapp.com/api/usuario/deactivate", {
                     id: this.editedItem.id,
                     },
                     {headers: { "token": this.$store.state.token}})
@@ -277,7 +278,7 @@
                 // Object.assign(this.desserts[this.editedIndex], this.editedItem)
             }else{
                 axios
-                .put("http://localhost:3000/api/usuario/activate", {
+                .put("https://cryptic-tor-85862.herokuapp.com/api/usuario/activate", {
                     id: this.editedItem.id,
                     },{headers: { "token": this.$store.state.token}})
                 .then(response => {
@@ -311,7 +312,7 @@
             if (this.editedIndex > -1) {
                 // Editar
                 axios
-                .put("http://localhost:3000/api/usuario/update", {
+                .put("https://cryptic-tor-85862.herokuapp.com/api/usuario/update", {
                     id: this.editedItem.id,
                     nombre: this.editedItem.nombre,
                     apellido: this.editedItem.apellido,
@@ -329,7 +330,7 @@
             } else {
                 // Agregar
                 axios
-                .post("http://localhost:3000/api/usuario/add", {
+                .post("https://cryptic-tor-85862.herokuapp.com/api/usuario/add", {
                     id: this.editedItem.id,
                     nombre: this.editedItem.nombre,
                     apellido: this.editedItem.apellido,

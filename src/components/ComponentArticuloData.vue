@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import axios from "axios"
     export default {
         name: "ComponentArticuloData",
         data(){
@@ -77,7 +78,7 @@
         },
         mounted() {
         axios
-            .get("http://localhost:3000/api/articulo/list")
+            .get("https://cryptic-tor-85862.herokuapp.com/api/articulo/list")
             .then((response) => {
             (this.articulos = response.data)
             // console.log(this.servicios);

@@ -145,6 +145,7 @@
 </template>
 
 <script>
+import axios from "axios"
     export default {
         name: "ComponentCategoriaTable",
         data: () => ({
@@ -203,7 +204,7 @@
         methods: {
             list () {
                 axios
-                .get("http://localhost:3000/api/categoria/list")
+                .get("https://cryptic-tor-85862.herokuapp.com/api/categoria/list")
                 .then(response => {
                     this.categorias = response.data
                     this.cargando = false
@@ -230,7 +231,7 @@
             if (this.editedItem.estado === 1) {
                 // Editar
                 axios
-                .put("http://localhost:3000/api/categoria/deactivate", {
+                .put("https://cryptic-tor-85862.herokuapp.com/api/categoria/deactivate", {
                     id: this.editedItem.id,
                     },{headers: { "token": this.$store.state.token}})
                 .then(response => {
@@ -242,7 +243,7 @@
                 // Object.assign(this.desserts[this.editedIndex], this.editedItem)
             }else{
                 axios
-                .put("http://localhost:3000/api/categoria/activate", {
+                .put("https://cryptic-tor-85862.herokuapp.com/api/categoria/activate", {
                     id: this.editedItem.id,
                     },{headers: { "token": this.$store.state.token}},)
                 .then(response => {
@@ -275,7 +276,7 @@
             if (this.editedIndex > -1) {
                 // Editar
                 axios
-                .put("http://localhost:3000/api/categoria/update",{
+                .put("https://cryptic-tor-85862.herokuapp.com/api/categoria/update",{
                     id: this.editedItem.id,
                     imagen: this.editedItem.imagen,
                     nombre: this.editedItem.nombre,
@@ -292,7 +293,7 @@
             } else {
                 // Agregar
                 axios
-                .post("http://localhost:3000/api/categoria/add",{
+                .post("https://cryptic-tor-85862.herokuapp.com/api/categoria/add",{
                     imagen: this.editedItem.imagen,
                     nombre: this.editedItem.nombre,
                     descripcion: this.editedItem.descripcion},

@@ -70,9 +70,9 @@
           <router-view></router-view>
       </v-main>
       <v-footer
-    color="primary lighten-1"
-    padless
-  >
+      color="primary lighten-1"
+      padless
+    >
     <v-row
       justify="center"
       no-gutters
@@ -84,6 +84,7 @@
         text
         rounded
         :href="link.link"
+        target="_blank"
         class="my-2"
       >
         <v-icon medium>{{link.icon}}</v-icon>

@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import axios from "axios"
     export default {
         name: "ComponentCategoriaData",
         data(){
@@ -65,7 +66,7 @@
         },
         mounted() {
         axios
-            .get("http://localhost:3000/api/categoria/list")
+            .get("https://cryptic-tor-85862.herokuapp.com/api/categoria/list")
             .then((response) => {
             (this.categorias = response.data)
             // console.log(this.servicios);

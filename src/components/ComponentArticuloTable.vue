@@ -177,6 +177,7 @@
 </template>
 
 <script>
+import axios from "axios"
     export default {
         name: "ComponentArticuloTable",
         data: () => ({
@@ -255,7 +256,7 @@
         methods: {
             list () {
                 axios
-                .get("http://localhost:3000/api/articulo/list")
+                .get("https://cryptic-tor-85862.herokuapp.com/api/articulo/list")
                 .then(response => {
                     this.articulos = response.data
                     this.cargando = false
@@ -266,7 +267,7 @@
             },
             listCategoria() {
                 axios
-                .get("http://localhost:3000/api/categoria/list")
+                .get("https://cryptic-tor-85862.herokuapp.com/categoria/list")
                 .then(response => {
                     this.categorias = response.data
                 })
@@ -292,7 +293,7 @@
             if (this.editedItem.estado === 1) {
                 // Editar
                 axios
-                .put("http://localhost:3000/api/articulo/deactivate", {
+                .put("https://cryptic-tor-85862.herokuapp.com/api/articulo/deactivate", {
                     id: this.editedItem.id,
                     },{headers: { "token": this.$store.state.token}})
                 .then(response => {
@@ -304,7 +305,7 @@
                 // Object.assign(this.desserts[this.editedIndex], this.editedItem)
             }else{
                 axios
-                .put("http://localhost:3000/api/articulo/activate", {
+                .put("https://cryptic-tor-85862.herokuapp.com/api/articulo/activate", {
                     id: this.editedItem.id,
                     },{headers: { "token": this.$store.state.token}})
                 .then(response => {
@@ -338,7 +339,7 @@
             if (this.editedIndex > -1) {
                 // Editar
                 axios
-                .put("http://localhost:3000/api/articulo/update", {
+                .put("https://cryptic-tor-85862.herokuapp.com/api/articulo/update", {
                     id: this.editedItem.id,
                     imagen: this.editedItem.imagen,
                     codigo: this.editedItem.codigo,
@@ -357,7 +358,7 @@
             } else {
                 // Agregar
                 axios
-                .post("http://localhost:3000/api/articulo/add", {
+                .post("https://cryptic-tor-85862.herokuapp.com/api/articulo/add", {
                     imagen: this.editedItem.imagen,
                     codigo: this.editedItem.codigo,
                     nombre: this.editedItem.nombre,

@@ -113,7 +113,7 @@ import swal from 'sweetalert';
             registerUser() {
                 if(this.$refs.form.validate()){
                     axios
-                    .post("http://localhost:3000/api/usuario/add", this.register)
+                    .post("https://cryptic-tor-85862.herokuapp.com/api/usuario/add", this.register)
                     .then(() => {
                         swal("Registro Correctamente", "Registro exitoso!!", "success");
                         this.$router.push("/login")
