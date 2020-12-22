@@ -267,7 +267,7 @@ import axios from "axios"
             },
             listCategoria() {
                 axios
-                .get("https://cryptic-tor-85862.herokuapp.com/categoria/list")
+                .get("https://cryptic-tor-85862.herokuapp.com/api/categoria/list")
                 .then(response => {
                     this.categorias = response.data
                 })
