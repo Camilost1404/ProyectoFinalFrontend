@@ -28,6 +28,61 @@ const routes = [
     },
   },
   {
+    path: '/articulos',
+    name: 'Articulos',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "home" */ '../views/ArticuloData.vue'),
+    meta: {
+      public: true
+    },children: [
+      {
+        path: 'articulo3',
+        name: 'Articulo3',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/ArticuloData.vue'),
+        meta: {
+          public: true
+        },
+      },
+      {
+        path: 'articulo4',
+        name: 'Articulo4',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/ArticuloData.vue'),
+        meta: {
+          public: true
+        },
+      },{
+        path: 'articulo5',
+        name: 'Articulo5',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/ArticuloData.vue'),
+        meta: {
+          public: true
+        },
+      },
+      {
+        path: 'articulo6',
+        name: 'Articulo6',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/ArticuloData.vue'),
+        meta: {
+          public: true
+        },
+      },
+    ]
+  },
+  {
     path: '/register',
     name: 'Register',
     // route level code-splitting
@@ -50,6 +105,17 @@ const routes = [
     },
     children: [
       {
+        path: 'usuariodata',
+        name: 'UsuarioData',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/UsuarioData.vue'),
+        meta: {
+          auth: true
+        },
+      },
+      {
         path: 'categoria',
         name: 'Categoria',
         // route level code-splitting
@@ -58,7 +124,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/Categoria.vue'),
         meta: {
           auth: true
-        },
+        },        
       },{
         path: 'articulo',
         name: 'Articulo',
@@ -68,7 +134,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/Articulo.vue'),
         meta: {
           auth: true
-        },
+        }
       },
       {
         path: 'usuario',

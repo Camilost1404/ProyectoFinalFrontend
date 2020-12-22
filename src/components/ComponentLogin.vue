@@ -72,6 +72,9 @@ import swal from 'sweetalert';
         }
 
     },
+    beforeCreate(){
+        this.$store.state.token===null? true : this.$router.push("/auth")
+    },
     methods: {
         loginUser(){
             if(this.$refs.form.validate()){

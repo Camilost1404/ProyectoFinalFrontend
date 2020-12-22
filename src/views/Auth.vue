@@ -7,7 +7,7 @@ import ComponentAuth from "../components/ComponentAuth.vue"
     export default {
         name: "Auth",
         components: {
-            ComponentAuth
+            ComponentAuth,
         }
     }
 </script>

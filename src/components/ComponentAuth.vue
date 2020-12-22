@@ -8,17 +8,18 @@
             :class="this.$store.state.token==null? 'd-flex d-sm-none' : false"
             >
             <v-list>
-                <v-list-item>
-                <v-icon x-large>
-                    mdi-account-circle
-                </v-icon>
+                <v-list-item class="d-flex" to="/auth/usuariodata">>
+                    <v-icon x-large>
+                        mdi-account-circle
+                    </v-icon>
+                
+                    <v-list-item-content v-if="this.$store.state.token!==null" class="ml-3">
+                        <v-list-item-title  class="title">
+                        {{this.$store.state.usuario.nombre}} {{this.$store.state.usuario.apellido}}
+                        </v-list-item-title>
+                        <v-list-item-subtitle>{{this.$store.state.usuario.email}}</v-list-item-subtitle>
+                    </v-list-item-content>
                 </v-list-item>
-                <v-list-item-content v-if="this.$store.state.token!==null" class="ml-3">
-                    <v-list-item-title  class="title">
-                    {{this.$store.state.usuario.nombre}} {{this.$store.state.usuario.apellido}}
-                    </v-list-item-title>
-                    <v-list-item-subtitle>{{this.$store.state.usuario.email}}</v-list-item-subtitle>
-                </v-list-item-content>
                 <v-divider></v-divider>
                 <v-list-group
                 prepend-icon="mdi-head-minus"
@@ -65,6 +66,12 @@
             </v-navigation-drawer>
         <v-main class="grey lighten-2">
             <v-container>
+                <!-- <v-alert
+                elevation="24"
+                class="mt-10"
+                icon="mdi-check"
+                type="success"
+                >Logueado Correctamente, Bienvenido!!</v-alert> -->
                 <router-view></router-view>
             </v-container>
         </v-main>

@@ -45,8 +45,7 @@
                                             >
                                                 <v-text-field
                                                 v-model="editedItem.imagen"
-                                                label="Subir imagén"
-                                                type="file"
+                                                label="Link imagén"
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col
