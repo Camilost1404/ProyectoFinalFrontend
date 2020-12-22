@@ -128,7 +128,8 @@ export default {
         { title: 'Register', icon: 'mdi-account-plus', to: "/register" },
       ],
     links: [
-        {nombre:'GitHub',icon: "mdi-github", link: ""}
+        {nombre:'GitHub BackEnd',icon: "mdi-github", link: "https://github.com/grupo196ciclo3/FinalBackend.git"},
+        {nombre:'GitHub FrontEnd',icon: "mdi-github", link: "https://github.com/grupo196ciclo3/FinalFrontend.git"}
       ],
   }),
   created(){
