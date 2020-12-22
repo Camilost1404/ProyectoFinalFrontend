@@ -84,7 +84,7 @@
 
             <v-card-actions>
               <v-btn
-                :to="'/articulos/articulo'+ servicio.id"
+                :to="'/articulos'"
                 color="accent"
                 text
               >

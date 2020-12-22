@@ -18,11 +18,25 @@
                         {{this.$store.state.usuario.nombre}} {{this.$store.state.usuario.apellido}}
                         </v-list-item-title>
                         <v-list-item-subtitle>{{this.$store.state.usuario.email}}</v-list-item-subtitle>
+                        <v-list-item-subtitle v-if="this.$store.state.usuario!==null && this.$store.state.usuario.rol!==''">{{this.$store.state.usuario.rol}}</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
                 <v-divider></v-divider>
+                <v-list-item to="/categorias">
+                    <v-list-item-title>Categorías</v-list-item-title>
+                    <v-list-item-icon>
+                        <v-icon >mdi-shape</v-icon>
+                    </v-list-item-icon>
+                </v-list-item>
+                <v-list-item to="/articulos">
+                    <v-list-item-title>Articulos</v-list-item-title>
+                    <v-list-item-icon>
+                        <v-icon >mdi-file</v-icon>
+                    </v-list-item-icon>
+                </v-list-item>
                 <v-list-group
                 prepend-icon="mdi-head-minus"
+                v-if="this.$store.state.usuario!==null && this.$store.state.usuario.rol!==''"
                 >
                 <template v-slot:activator>
                     <v-list-item-title>Administrar</v-list-item-title>
@@ -44,6 +58,7 @@
         
                 <v-list-group
                 prepend-icon="mdi-shield-account"
+                v-if="this.$store.state.usuario!==null && this.$store.state.usuario.rol==='Administrador'"
                 >
                 <template v-slot:activator>
                     <v-list-item-title>Permisos</v-list-item-title>

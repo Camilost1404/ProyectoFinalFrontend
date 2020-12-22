@@ -238,7 +238,7 @@
         methods: {
             list () {
                 axios
-                .get("http://localhost:3000/api/usuario/list")
+                .get("http://localhost:3000/api/usuario/list", {headers: { "token": this.$store.state.token}},)
                 .then(response => {
                     this.usuarios = response.data
                     this.cargando = false
@@ -266,7 +266,8 @@
                 axios
                 .put("http://localhost:3000/api/usuario/deactivate", {
                     id: this.editedItem.id,
-                    })
+                    },
+                    {headers: { "token": this.$store.state.token}})
                 .then(response => {
                     this.list()
                 })
@@ -278,7 +279,7 @@
                 axios
                 .put("http://localhost:3000/api/usuario/activate", {
                     id: this.editedItem.id,
-                    })
+                    },{headers: { "token": this.$store.state.token}})
                 .then(response => {
                     this.list()
                 })
@@ -316,7 +317,7 @@
                     apellido: this.editedItem.apellido,
                     email: this.editedItem.email,
                     rol: this.editedItem.rol.value,
-                    }
+                    },{headers: { "token": this.$store.state.token}}
                     )
                 .then(response => {
                     this.list()
@@ -334,7 +335,7 @@
                     apellido: this.editedItem.apellido,
                     password: this.editedItem.password,
                     email: this.editedItem.email,
-                    }
+                    },{headers: { "token": this.$store.state.token}}
                     )
                 .then(response => {
                     this.list()

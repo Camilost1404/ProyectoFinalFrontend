@@ -232,7 +232,7 @@
                 axios
                 .put("http://localhost:3000/api/categoria/deactivate", {
                     id: this.editedItem.id,
-                    })
+                    },{headers: { "token": this.$store.state.token}})
                 .then(response => {
                     this.list()
                 })
@@ -244,7 +244,7 @@
                 axios
                 .put("http://localhost:3000/api/categoria/activate", {
                     id: this.editedItem.id,
-                    })
+                    },{headers: { "token": this.$store.state.token}},)
                 .then(response => {
                     this.list()
                 })
@@ -275,11 +275,12 @@
             if (this.editedIndex > -1) {
                 // Editar
                 axios
-                .put("http://localhost:3000/api/categoria/update", {
+                .put("http://localhost:3000/api/categoria/update",{
                     id: this.editedItem.id,
                     imagen: this.editedItem.imagen,
                     nombre: this.editedItem.nombre,
-                    descripcion: this.editedItem.descripcion}
+                    descripcion: this.editedItem.descripcion,
+                    },{headers: { "token": this.$store.state.token}},
                     )
                 .then(response => {
                     this.list()
@@ -291,10 +292,11 @@
             } else {
                 // Agregar
                 axios
-                .post("http://localhost:3000/api/categoria/add", {
+                .post("http://localhost:3000/api/categoria/add",{
                     imagen: this.editedItem.imagen,
                     nombre: this.editedItem.nombre,
-                    descripcion: this.editedItem.descripcion}
+                    descripcion: this.editedItem.descripcion},
+                    {headers: { "token": this.$store.state.token}}
                     )
                 .then(response => {
                     this.list()

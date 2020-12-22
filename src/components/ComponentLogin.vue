@@ -16,6 +16,7 @@
                 v-model="login.email"
                 type="email"
                 :rules="emailRules"
+                v-on:keyup.enter="loginUser"
                 class="ma-4"
                 label="E-mail"
                 required
@@ -25,6 +26,7 @@
                 v-model="login.password"
                 type="password"
                 :rules="passwordRules"
+                v-on:keyup.enter="loginUser"
                 class="ma-4"
                 label="Password"
                 required

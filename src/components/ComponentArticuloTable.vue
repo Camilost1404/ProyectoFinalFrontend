@@ -294,7 +294,7 @@
                 axios
                 .put("http://localhost:3000/api/articulo/deactivate", {
                     id: this.editedItem.id,
-                    })
+                    },{headers: { "token": this.$store.state.token}})
                 .then(response => {
                     this.list()
                 })
@@ -306,7 +306,7 @@
                 axios
                 .put("http://localhost:3000/api/articulo/activate", {
                     id: this.editedItem.id,
-                    })
+                    },{headers: { "token": this.$store.state.token}})
                 .then(response => {
                     this.list()
                 })
@@ -345,7 +345,7 @@
                     nombre: this.editedItem.nombre,
                     categoriaId: this.categoria.id,
                     descripcion: this.editedItem.descripcion,
-                    precio: this.editedItem.precio,}
+                    precio: this.editedItem.precio,},{headers: { "token": this.$store.state.token}}
                     )
                 .then(response => {
                     this.list()
@@ -364,7 +364,7 @@
                     categoriaId: this.categoria.id,
                     descripcion: this.editedItem.descripcion,
                     precio: this.editedItem.precio,
-                    }
+                    },{headers: { "token": this.$store.state.token}}
                     )
                 .then(response => {
                     this.list()

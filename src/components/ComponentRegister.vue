@@ -31,6 +31,7 @@
                             >
                                 <v-text-field
                                 label="Nombre *"
+                                v-model="register.nombre"
                                 :rules="nameRules"
                                 required
                                 ></v-text-field>
@@ -42,6 +43,7 @@
                             >
                                 <v-text-field
                                 label="Apellido *"
+                                v-model="register.apellido"
                                 :rules="nameRules"
                                 required
                                 ></v-text-field>
@@ -49,6 +51,7 @@
                             <v-col cols="12">
                                 <v-text-field
                                 label="Email *"
+                                v-model="register.email"
                                 :rules="emailRules"
                                 required
                                 ></v-text-field>
@@ -57,6 +60,7 @@
                                 <v-text-field
                                 label="Password *"
                                 type="password"
+                                v-model="register.password"
                                 :rules="passwordRules"
                                 required
                                 ></v-text-field>
@@ -88,7 +92,8 @@ import swal from 'sweetalert';
         data() {
             return {
             register: {
-                name: "",
+                nombre: "",
+                apellido: "",
                 email: "",
                 password: "",
             },
@@ -108,7 +113,7 @@ import swal from 'sweetalert';
             registerUser() {
                 if(this.$refs.form.validate()){
                     axios
-                    .post("http://localhost:3000/api/usuario/register", this.register)
+                    .post("http://localhost:3000/api/usuario/add", this.register)
                     .then(() => {
                         swal("Registro Correctamente", "Registro exitoso!!", "success");
                         this.$router.push("/login")
@@ -116,6 +121,7 @@ import swal from 'sweetalert';
                     .catch(error => {
                         swal("Oops!", "Email ya registrado", "error");
                         this.register.nombre="";
+                        this.register.apellido="";
                         this.register.email="";
                         this.register.password="";
                         console.log(error);
