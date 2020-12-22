@@ -30,7 +30,7 @@
                                 v-bind="attrs"
                                 v-on="on"
                                 >
-                                Nueva Artículo
+                                Nuevo Usuario
                                 </v-btn>
                             </template>
                             <v-card>
